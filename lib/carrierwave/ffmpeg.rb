@@ -24,7 +24,7 @@ module CarrierWave
       case format
       when :mp4
         { video_codec: 'libx264',   
-          audio_codec: 'libfaac' }
+          audio_codec: 'aac' }
       when :webm
         { video_codec: 'libvpx',    
           audio_codec: 'libvorbis' }
