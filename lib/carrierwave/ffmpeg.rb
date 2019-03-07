@@ -14,10 +14,10 @@ module CarrierWave
     end
 
     def encode format, opts = {}
-      tmp_path = File.join File.dirname(current_path), "tmp_file.#{format}"
+      tmp_path = File.join File.dirname(url), "tmp_file.#{format}"
       file = movie current_path
       file.transcode tmp_path, options(format, file, opts), transcoder_options
-      File.rename tmp_path, current_path
+      File.rename tmp_path, url
     end
 
     def codec format
