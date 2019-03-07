@@ -17,7 +17,11 @@ module CarrierWave
       tmp_path = File.join File.dirname(current_path), "tmp_file.#{format}"
       file = movie current_path
       file.transcode tmp_path, options(format, file, opts), transcoder_options
-      File.rename tmp_path, full_path
+      connection do |sftp|
+#         sftp.mkdir_p!(::File.dirname(full_path))
+        sftp.upload!(file.path, full_path)
+      end
+#       File.rename tmp_path, full_path
     end
 
     def codec format
@@ -51,5 +55,21 @@ module CarrierWave
     def movie path
       ::FFMPEG::Movie.new path
     end
+    
+    def full_path
+      "#{@uploader.sftp_folder}/#{path}"
+    end
+
+    
+    def connection
+      sftp = Net::SFTP.start(
+        @uploader.sftp_host,
+        @uploader.sftp_user,
+        @uploader.sftp_options
+      )
+      yield sftp
+      sftp.close_channel
+    end
+    
   end
 end
