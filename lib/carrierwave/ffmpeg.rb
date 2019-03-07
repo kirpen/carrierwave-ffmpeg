@@ -40,7 +40,7 @@ module CarrierWave
       opts[:resolution]    = file.resolution unless opts[:resolution]
       opts[:video_bitrate] = file.bitrate unless opts[:video_bitrate]
       opts[:video_bitrate_tolerance] = (opts[:video_bitrate].to_i / 10).to_i
-      opts[:threads] = 2 unless opts[:threads]
+      opts[:threads] = 4 unless opts[:threads]
       opts.merge!(codec(format))
     end
 
